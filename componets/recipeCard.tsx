@@ -1,6 +1,6 @@
 import { View, Text, StyleSheet, Pressable, Alert } from 'react-native'
 
-type DificultFood = 'Fácil' | 'Médio' | 'Difícil'
+ export type DificultFood = 'Fácil' | 'Médio' | 'Difícil'
 
 interface RecipeCardProp {
     nameFood: string,
@@ -33,12 +33,15 @@ export function RecipeCard({ nameFood, categoryFood, dificultFood, onPress }: Re
             <View style={styles.infoFood}>
                 <Text style={styles.nameFoodStyle}>{nameFood}</Text>
                 <Text style={styles.categoryFood}>{categoryFood}</Text>
-                <View style= {styles.dificulFood}>
-                    <Text>{dificultFood}</Text>
+                <View style={[styles.dificulFood, { backgroundColor: dificultFoods.backgroundColor }]}>
+                    <Text style={[styles.dificultFoodText, { color: dificultFoods.color }]}>{dificultFood}</Text>
                 </View>
             </View>
             <View style={styles.buttonContainer}>
-                <Pressable style={styles.buttonStyle}>
+                <Pressable style={styles.buttonStyle} onPress={() => {
+                    Alert.alert("Receita selecionada", `${nameFood} - ${dificultFood}`,
+                        [{ text: "Cancelar", style: 'cancel' }, { text: "Abrir", onPress: onPress }])
+                }}>
                     <Text style={styles.buttonText}> Ver </Text>
                 </Pressable>
             </View>
@@ -100,10 +103,13 @@ const styles = StyleSheet.create({
 
     },
     dificulFood: {
-        alignSelf : 'flex-start',
+        alignSelf: 'flex-start',
         paddingHorizontal: 10,
         paddingVertical: 3,
         borderRadius: 20
+    },
+    dificultFoodText: {
+        fontSize: 12
     }
 
 
